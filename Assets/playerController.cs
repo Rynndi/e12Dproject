@@ -9,6 +9,8 @@ public class newScript : MonoBehaviour
     [SerializeField] float speed = 5.0f; 
     Rigidbody2D rb; 
     bool isGrounded = false;
+    int score = 0; 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); 
@@ -59,4 +61,19 @@ public class newScript : MonoBehaviour
             isGrounded = false; 
         }
     }
+
+    void OnTriggerEnter2D(Collider2D collision) { 
+        //check if tag is collectible 
+        if (collision.gameObject.CompareTag("Collectible")) { 
+            //incrementing score 
+            score +=1;  
+            // Destroy(collision.gameObject); 
+            collision.gameObject.SetActive(false); 
+            Debug.Log("Score: " + score); 
+
+        }
+
+    }
+
+
 }
