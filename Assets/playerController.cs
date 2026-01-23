@@ -70,6 +70,7 @@ public class newScript : MonoBehaviour
         // jumping code (FixedUpdate)
         if (jumpPressed && jumpCount < maxJumps){
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+            //Add an instant force impulse to the rigidbody2D, using its mass. 
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
             jumpCount++;
