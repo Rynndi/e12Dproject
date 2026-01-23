@@ -27,7 +27,6 @@ public class newScript : MonoBehaviour
     SpriteRenderer spriteRenderer; 
 
     
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); 
@@ -48,27 +47,32 @@ public class newScript : MonoBehaviour
         movementY = v.y; 
         // Debug.Log("Movement X = " + movementX);
         // Debug.Log("Movement Y = " + movementY);
+        
+
         int currDirection =0; 
+        //pressing D -> currDirection = 1 
         if (movementX > 0.1f) { 
             currDirection = 1; 
         }
+        //pressing A -> currDirection = -1 
         else if (movementX < -0.1f) { 
             currDirection = -1; 
         }
+        //if player pressing left or right
         if (currDirection !=0) { 
+            //checks for a double tap 
+            //checks for last direction twice, when last tap happened and if fast enough
             if (currDirection == lastTapDirection && Time.time - lastTapTime <= doubleTapTime) { 
                 isSprinting = true; 
             }
+            //store tap for next check 
             lastTapTime = Time.time; 
             lastTapDirection = currDirection;
         }
         if (Mathf.Approximately(movementX, 0f)){
         isSprinting = false;
         }
-
-
     }
-
     void OnJump(InputValue value) { 
         if (value.isPressed) { 
             jumpPressed = true; 
