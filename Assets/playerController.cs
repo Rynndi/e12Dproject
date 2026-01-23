@@ -8,16 +8,24 @@ public class newScript : MonoBehaviour
         // Start is called once before the first execution of Update after the MonoBehaviour is created
     float movementX;
     float movementY;
-    [SerializeField] float speed = 5.0f; 
+    [SerializeField] float walkspeed = 2.0f; 
+    [SerializeField] float sprintSpeed = 10f;
     [SerializeField] float jumpForce = 8f;
-    int jumpCount = 0; 
+    [SerializeField] float sprintMultiplier = 9.0f;
+    [SerializeField] float doubleTapTime = 0.25f; 
     [SerializeField] int maxJumps = 2; 
-    Rigidbody2D rb; 
+    bool jumpPressed = false;
+    int jumpCount = 0; 
     bool isGrounded = false;
     int score = 0; 
+
+    float lastTapTime =0f;
+    int lastTapDirection =0; 
+    bool isSprinting = false; 
+    Rigidbody2D rb; 
     Animator animator; 
     SpriteRenderer spriteRenderer; 
-    bool jumpPressed = false;
+
     
 
     void Start()
@@ -38,9 +46,26 @@ public class newScript : MonoBehaviour
         Vector2 v = value.Get<Vector2>(); 
         movementX = v.x; 
         movementY = v.y; 
-        Debug.Log("Movement X = " + movementX);
-        Debug.Log("Movement Y = " + movementY);
-        
+        // Debug.Log("Movement X = " + movementX);
+        // Debug.Log("Movement Y = " + movementY);
+        int currDirection =0; 
+        if (movementX > 0.1f) { 
+            currDirection = 1; 
+        }
+        else if (movementX < -0.1f) { 
+            currDirection = -1; 
+        }
+        if (currDirection !=0) { 
+            if (currDirection == lastTapDirection && Time.time - lastTapTime <= doubleTapTime) { 
+                isSprinting = true; 
+            }
+            lastTapTime = Time.time; 
+            lastTapDirection = currDirection;
+        }
+        if (Mathf.Approximately(movementX, 0f)){
+        isSprinting = false;
+        }
+
 
     }
 
@@ -56,7 +81,16 @@ public class newScript : MonoBehaviour
         // float movementDistanceY = movementY * speed * Time.deltaTime; 
         // transform.position = new Vector2(transform.position.x + movementDistanceX, transform.position.y + movementDistanceY);
         // rb.linearVelocity = new Vector2(movementX * speed, movementY * speed); 
-        rb.linearVelocity = new Vector2(movementX * speed, rb.linearVelocity.y);
+        // rb.linearVelocity = new Vector2(movementX * speed, rb.linearVelocity.y);
+        float currSpeed;
+        if (isSprinting) { 
+            currSpeed = sprintSpeed; 
+        }
+        else { 
+            currSpeed = walkspeed; 
+        }
+        rb.linearVelocity = new Vector2(movementX * currSpeed, rb.linearVelocity.y);
+
 
         //jumping code 
       
