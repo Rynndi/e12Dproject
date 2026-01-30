@@ -103,7 +103,6 @@ public class newScript : MonoBehaviour
         //     rb.AddForce(new Vector2(0,100)); 
         //     jumpCount+=1; 
         //     animator.SetBool("isJumping", true); 
-        
         // }
         // jumping code (FixedUpdate)
         if (jumpPressed && jumpCount < maxJumps){
@@ -137,7 +136,6 @@ public class newScript : MonoBehaviour
             animator.SetBool("isRunning", false);
         }
 
-    
     }
     private void OnCollisionEnter2D(Collision2D collision) { 
         if (collision.gameObject.CompareTag("Ground")) { 
@@ -163,8 +161,5 @@ public class newScript : MonoBehaviour
             Debug.Log("Score: " + score); 
 
         }
-
     }
-
-
 }
