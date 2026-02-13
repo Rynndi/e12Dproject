@@ -1,6 +1,7 @@
 using UnityEngine;
 //import input system 
 using UnityEngine.InputSystem;
+using UnityEngine.Events; 
 
 
 public class newScript : MonoBehaviour
@@ -25,6 +26,9 @@ public class newScript : MonoBehaviour
     Rigidbody2D rb; 
     Animator animator; 
     SpriteRenderer spriteRenderer; 
+
+    public UnityEvent playerDeath; 
+
 
     
     void Start()
@@ -160,6 +164,12 @@ public class newScript : MonoBehaviour
             collision.gameObject.SetActive(false); 
             Debug.Log("Score: " + score); 
 
+        }
+        //check if collide with a spike 
+        else if (collision.gameObject.CompareTag("Spike")) { 
+            //call it on a unityevent, invokes all callbacks 
+            //invokes any scripts attached to unity event 
+            playerDeath.Invoke(); 
         }
     }
 }
